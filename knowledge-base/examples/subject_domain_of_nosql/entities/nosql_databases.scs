@@ -5,18 +5,16 @@ MongoDB
     (*
         <- lang_ru;;
     *);
--> rrel_data_model:
-    document_model;
--> rrel_query_language:
-    MongoQL;
--> rrel_developer:
-    MongoDB_Inc;
 -> rrel_consistency_model:
     eventual_consistency;
+-> rrel_data_model:
+    document_data_model;
+-> rrel_query_language:
+    mongo_query_language;
 -> rrel_use_case:
-    content_management;
-    session_storage;
-=> nrel_license_type:
+    content_management_use_case;
+    analytics_dashboard_use_case;
+-> rrel_license:
     SSPL_license;;
 
 Cassandra
@@ -26,18 +24,17 @@ Cassandra
     (*
         <- lang_ru;;
     *);
--> rrel_data_model:
-    wide_column_model;
--> rrel_query_language:
-    CQL;
--> rrel_developer:
-    Apache_Software_Foundation;
 -> rrel_consistency_model:
     tunable_consistency;
+-> rrel_data_model:
+    wide_column_data_model;
+-> rrel_query_language:
+    cassandra_query_language;
 -> rrel_use_case:
-    time_series;
-=> nrel_license_type:
-    Apache_2_license;;
+    time_series_use_case;
+    analytics_dashboard_use_case;
+-> rrel_license:
+    Apache_2_0_license;;
 
 Redis
 <- concept_nosql_database;
@@ -46,19 +43,16 @@ Redis
     (*
         <- lang_ru;;
     *);
--> rrel_data_model:
-    key_value_model;
--> rrel_query_language:
-    Redis_Commands;
--> rrel_developer:
-    Redis_Ltd;
 -> rrel_consistency_model:
     eventual_consistency;
+-> rrel_data_model:
+    key_value_data_model;
+-> rrel_query_language:
+    redis_commands_language;
 -> rrel_use_case:
-    real_time_cache;
-    session_storage;
-=> nrel_license_type:
-    BSD_3_license;;
+    caching_use_case;
+-> rrel_license:
+    BSD_3_Clause_license;;
 
 Neo4j
 <- concept_nosql_database;
@@ -67,37 +61,13 @@ Neo4j
     (*
         <- lang_ru;;
     *);
--> rrel_data_model:
-    graph_model;
--> rrel_query_language:
-    Cypher;
--> rrel_developer:
-    Neo4j_Inc;
 -> rrel_consistency_model:
     strong_consistency;
--> rrel_use_case:
-    recommendation_graphs;
-=> nrel_license_type:
-    GPLv3_license;;
-
-Couchbase
-<- concept_nosql_database;
-=> nrel_main_idtf:
-    [Couchbase]
-    (*
-        <- lang_ru;;
-    *);
 -> rrel_data_model:
-    document_model;
-    key_value_model;
+    graph_data_model;
 -> rrel_query_language:
-    N1QL;
--> rrel_developer:
-    Couchbase_Inc;
--> rrel_consistency_model:
-    tunable_consistency;
+    cypher_query_language;
 -> rrel_use_case:
-    content_management;
-    real_time_cache;
-=> nrel_license_type:
-    Business_Source_License;;
+    graph_analytics_use_case;
+-> rrel_license:
+    GPL_3_0_license;;

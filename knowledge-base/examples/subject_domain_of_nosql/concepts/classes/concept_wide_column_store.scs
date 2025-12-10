@@ -1,9 +1,0 @@
-concept_wide_column_store
-<- sc_node_class;
-=> nrel_main_idtf:
-    [широкостолбцовое хранилище]
-    (*
-        <- lang_ru;;
-    *);
-<= nrel_inclusion:
-    concept_data_model;;

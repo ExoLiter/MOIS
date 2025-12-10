@@ -1,7 +1,7 @@
 rrel_use_case
 <- sc_node_role_relation;
 => nrel_main_idtf:
-    [сценарий использования']
+    [сфера применения']
     (*
         <- lang_ru;;
     *);

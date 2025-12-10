@@ -1,8 +1,8 @@
-@search_databases_by_consistency_model_template = {
+@search_databases_by_data_model_template = {
     rrel_init_template: {
         rrel_template: [*
-            @input_param1 = (.._consistency_model <-_ concept_consistency_model);;
-            rrel_consistency_model _-> (.._database _-> .._consistency_model);;
+            @input_param1 = (.._data_model <-_ concept_data_model);;
+            rrel_data_model _-> (.._database _-> .._data_model);;
             @output_param1 = (.._database <-_ concept_nosql_database);;
         *];
         rrel_template_input_params: {
@@ -14,10 +14,10 @@
     } (* <- nrel_search_template;; *)
 } (* <- nrel_fixed_search_strategy_template;; *);;
 
-@search_databases_by_consistency_model_template
+@search_databases_by_data_model_template
 <- nrel_fixed_search_strategy_template;
 => nrel_main_idtf:
-    [Шаблон поиска баз данных по модели согласованности]
+    [Шаблон поиска баз данных по модели данных]
     (*
         <- lang_ru;;
     *);;

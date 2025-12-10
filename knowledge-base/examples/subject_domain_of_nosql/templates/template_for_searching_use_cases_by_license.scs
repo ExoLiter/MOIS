@@ -1,8 +1,8 @@
 @search_use_cases_by_license_template = {
     rrel_init_template: {
         rrel_template: [*
-            @input_param1 = (.._license <-_ concept_license_type);;
-            nrel_license_type _-> (.._database _=> .._license);;
+            @input_param1 = (.._license <-_ concept_license);;
+            rrel_license _-> (.._database _-> .._license);;
             @output_param1 = (.._database <-_ concept_nosql_database);;
         *];
         rrel_template_input_params: {
@@ -25,14 +25,14 @@
             rrel_template_output_params: {
                 @output_param1
             }
-        } (* <- nrel_search_set_template;; *)
+        } (* <- nrel_search_template;; *)
     } (* <- nrel_fixed_search_strategy_template;; *)
-};; 
+};;
 
 @search_use_cases_by_license_template
 <- nrel_fixed_search_strategy_template;
 => nrel_main_idtf:
-    [Шаблон поиска сценариев использования по лицензии NoSQL СУБД]
+    [Шаблон поиска сфер применения по лицензии базы данных]
     (*
         <- lang_ru;;
     *);;

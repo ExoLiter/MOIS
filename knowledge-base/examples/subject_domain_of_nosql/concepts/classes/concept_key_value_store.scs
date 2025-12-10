@@ -1,9 +1,0 @@
-concept_key_value_store
-<- sc_node_class;
-=> nrel_main_idtf:
-    [ключ-значение хранилище]
-    (*
-        <- lang_ru;;
-    *);
-<= nrel_inclusion:
-    concept_data_model;;

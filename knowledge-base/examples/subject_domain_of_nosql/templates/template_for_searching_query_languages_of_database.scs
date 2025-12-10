@@ -2,8 +2,8 @@
     rrel_init_template: {
         rrel_template: [*
             @input_param1 = (.._database <-_ concept_nosql_database);;
-            rrel_query_language _-> (.._database _-> .._language);;
-            @output_param1 = (.._language <-_ concept_query_language);;
+            rrel_query_language _-> (.._database _-> .._query_language);;
+            @output_param1 = (.._query_language <-_ concept_query_language);;
         *];
         rrel_template_input_params: {
             @input_param1
@@ -11,13 +11,13 @@
         rrel_template_output_params: {
             @output_param1
         }
-    } (* <- nrel_search_set_template;; *)
-};; 
+    } (* <- nrel_search_template;; *)
+} (* <- nrel_fixed_search_strategy_template;; *);;
 
 @search_query_languages_of_database_template
 <- nrel_fixed_search_strategy_template;
 => nrel_main_idtf:
-    [Шаблон поиска языков запросов NoSQL СУБД]
+    [Шаблон поиска языков запросов базы данных]
     (*
         <- lang_ru;;
     *);;

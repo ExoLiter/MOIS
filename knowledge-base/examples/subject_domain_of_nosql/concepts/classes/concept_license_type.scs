@@ -1,7 +1,0 @@
-concept_license_type
-<- sc_node_class;
-=> nrel_main_idtf:
-    [тип лицензии]
-    (*
-        <- lang_ru;;
-    *);;

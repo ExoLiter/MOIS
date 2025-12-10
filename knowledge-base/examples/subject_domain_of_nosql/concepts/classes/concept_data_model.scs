@@ -1,9 +1,7 @@
 concept_data_model
 <- sc_node_class;
 => nrel_main_idtf:
-    [модель данных NoSQL]
+    [модель данных]
     (*
         <- lang_ru;;
-    *);
-<= nrel_inclusion:
-    concept_information_model;;
+    *);;

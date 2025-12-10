@@ -1,0 +1,7 @@
+concept_license
+<- sc_node_class;
+=> nrel_main_idtf:
+    [лицензия программного обеспечения]
+    (*
+        <- lang_ru;;
+    *);;
