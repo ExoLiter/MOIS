@@ -1,0 +1,9 @@
+concept_graph_database
+<- sc_node_class;
+=> nrel_main_idtf:
+    [графовая база данных]
+    (*
+        <- lang_ru;;
+    *);
+<= nrel_inclusion:
+    concept_data_model;;

@@ -1,0 +1,7 @@
+concept_use_case
+<- sc_node_class;
+=> nrel_main_idtf:
+    [сценарий использования NoSQL]
+    (*
+        <- lang_ru;;
+    *);;

@@ -1,0 +1,7 @@
+concept_database_management_system
+<- sc_node_class;
+=> nrel_main_idtf:
+    [система управления базами данных]
+    (*
+        <- lang_ru;;
+    *);;

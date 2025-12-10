@@ -1,0 +1,9 @@
+concept_document_store
+<- sc_node_class;
+=> nrel_main_idtf:
+    [документно-ориентированное хранилище]
+    (*
+        <- lang_ru;;
+    *);
+<= nrel_inclusion:
+    concept_data_model;;

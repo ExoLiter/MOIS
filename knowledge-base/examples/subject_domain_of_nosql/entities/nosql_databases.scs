@@ -1,0 +1,103 @@
+MongoDB
+<- concept_nosql_database;
+=> nrel_main_idtf:
+    [MongoDB]
+    (*
+        <- lang_ru;;
+    *);
+-> rrel_data_model:
+    document_model;
+-> rrel_query_language:
+    MongoQL;
+-> rrel_developer:
+    MongoDB_Inc;
+-> rrel_consistency_model:
+    eventual_consistency;
+-> rrel_use_case:
+    content_management;
+    session_storage;
+=> nrel_license_type:
+    SSPL_license;;
+
+Cassandra
+<- concept_nosql_database;
+=> nrel_main_idtf:
+    [Apache Cassandra]
+    (*
+        <- lang_ru;;
+    *);
+-> rrel_data_model:
+    wide_column_model;
+-> rrel_query_language:
+    CQL;
+-> rrel_developer:
+    Apache_Software_Foundation;
+-> rrel_consistency_model:
+    tunable_consistency;
+-> rrel_use_case:
+    time_series;
+=> nrel_license_type:
+    Apache_2_license;;
+
+Redis
+<- concept_nosql_database;
+=> nrel_main_idtf:
+    [Redis]
+    (*
+        <- lang_ru;;
+    *);
+-> rrel_data_model:
+    key_value_model;
+-> rrel_query_language:
+    Redis_Commands;
+-> rrel_developer:
+    Redis_Ltd;
+-> rrel_consistency_model:
+    eventual_consistency;
+-> rrel_use_case:
+    real_time_cache;
+    session_storage;
+=> nrel_license_type:
+    BSD_3_license;;
+
+Neo4j
+<- concept_nosql_database;
+=> nrel_main_idtf:
+    [Neo4j]
+    (*
+        <- lang_ru;;
+    *);
+-> rrel_data_model:
+    graph_model;
+-> rrel_query_language:
+    Cypher;
+-> rrel_developer:
+    Neo4j_Inc;
+-> rrel_consistency_model:
+    strong_consistency;
+-> rrel_use_case:
+    recommendation_graphs;
+=> nrel_license_type:
+    GPLv3_license;;
+
+Couchbase
+<- concept_nosql_database;
+=> nrel_main_idtf:
+    [Couchbase]
+    (*
+        <- lang_ru;;
+    *);
+-> rrel_data_model:
+    document_model;
+    key_value_model;
+-> rrel_query_language:
+    N1QL;
+-> rrel_developer:
+    Couchbase_Inc;
+-> rrel_consistency_model:
+    tunable_consistency;
+-> rrel_use_case:
+    content_management;
+    real_time_cache;
+=> nrel_license_type:
+    Business_Source_License;;
