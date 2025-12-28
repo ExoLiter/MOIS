@@ -1,0 +1,23 @@
+Redis
+<- concept_database;
+<- concept_node;
+=> nrel_ip:
+    1.1.1.1;;
+
+MongoDB
+<- concept_database;
+<- concept_node;
+=> nrel_ip:
+    1.1.1.2;;
+
+Cassandra
+<- concept_database;
+<- concept_node;
+=> nrel_ip:
+    1.1.1.3;;
+
+Ne04j
+<- concept_database;
+<- concept_node;
+=> nrel_ip:
+    1.1.1.3;;

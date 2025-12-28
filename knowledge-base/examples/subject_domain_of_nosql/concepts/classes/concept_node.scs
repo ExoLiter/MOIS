@@ -1,7 +1,7 @@
-concept_use_case
+concept_node
 <- sc_node_class;
 => nrel_main_idtf:
-    [сфера применения]
+    [узел в сети]
     (*
         <- lang_ru;;
     *);;

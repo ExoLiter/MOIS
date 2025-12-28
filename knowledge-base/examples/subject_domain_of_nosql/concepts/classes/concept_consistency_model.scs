@@ -1,7 +1,0 @@
-concept_consistency_model
-<- sc_node_class;
-=> nrel_main_idtf:
-    [модель согласованности]
-    (*
-        <- lang_ru;;
-    *);;

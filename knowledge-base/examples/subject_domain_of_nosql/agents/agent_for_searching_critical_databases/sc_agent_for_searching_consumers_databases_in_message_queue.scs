@@ -1,0 +1,53 @@
+sc_agent_for_searching_consumers_databases_in_message_queue
+=> nrel_main_idtf:
+	[sc-агент поиска баз данных по серверам-консьюмерам очереди сообщений]
+    (*
+        <- lang_ru;;
+    *);
+	[sc-agent for searching databases of consumers in message queue]
+    (* 
+        <- lang_en;;
+    *);
+<- abstract_sc_agent;
+
+
+=> nrel_primary_initiation_condition: 
+	(sc_event_after_generate_outgoing_arc => action_initiated);
+=> nrel_initiation_condition_and_result: 
+	(..sc_agent_for_searching_consumers_databases_in_message_queue_condition
+     => ..sc_agent_for_searching_consumers_databases_in_message_queue_result);
+=> nrel_sc_agent_action_class:
+	action_search_consumers_databases_in_message_queue;
+<= nrel_sc_agent_key_sc_elements: 
+{
+	action_initiated;
+	action_search_consumers_databases_in_message_queue
+};
+
+=> nrel_inclusion: 
+	.platform_independent_implementation_of_sc_agent_for_searching_consumers_databases_in_message_queue
+	(*
+		<- platform_independent_abstract_sc_agent;;
+		<= nrel_sc_agent_program: 
+		{
+			agent_program_for_searching_consumers_databases_in_message_queue;
+			program_for_searching_consumers_databases_in_message_queue
+		};;
+
+		-> scp_agent_for_searching_consumers_databases_in_message_queue
+		(*
+			<- active_sc_agent;;
+		*);;  
+	*);;
+
+..sc_agent_for_searching_consumers_databases_in_message_queue_condition
+= [*
+	action_search_consumers_databases_in_message_queue _-> .._action;;
+	action_initiated _-> .._action;;
+	.._action _-> rrel_1:: .._message_queue;;
+*];;
+
+..sc_agent_for_searching_consumers_databases_in_message_queue_result
+= [*
+	concept_database _-> .._database;;
+*];;

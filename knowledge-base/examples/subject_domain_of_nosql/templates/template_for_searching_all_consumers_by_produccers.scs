@@ -1,0 +1,68 @@
+@search_all_consumers_ips_by_produccers_ip_template = {
+    rrel_init_template: {
+        rrel_template: [*
+            @input_param1 = (.._producer_ip <-_ concept_ip);;
+            nrel_ip _-> (.._producer _=> .._producer_ip);;
+            @output_param1 = (.._producer <-_ concept_server);;
+        *];
+        rrel_template_input_params: {
+            @input_param1
+        };
+        rrel_template_output_params: {
+            @output_param1
+        }
+    } (* <- nrel_search_set_template;; *);
+    rrel_next_template: {
+        rrel_init_template: {
+            rrel_template: [*
+                @input_param1 = (.._producer <-_ concept_server);;
+                rrel_producer _-> (.._message_queue _-> .._producer);;
+                @output_param1 = (.._message_queue <-_ concept_message_queue);;
+            *];
+            rrel_template_input_params: {
+                @input_param1
+            };
+            rrel_template_output_params: {
+                @output_param1
+            }
+        } (* <- nrel_search_set_template;; *);
+        rrel_next_template: {
+            rrel_init_template: {
+                rrel_template: [*
+                    @input_param1 = (.._message_queue <-_ concept_message_queue);;
+                    rrel_consumer _-> (.._message_queue _-> .._consumer);;
+                    @output_param1 = (.._consumer <-_ concept_node);;
+                *];
+                rrel_template_input_params: {
+                    @input_param1
+                };
+                rrel_template_output_params: {
+                    @output_param1
+                }
+            } (* <- nrel_search_template;; *);
+            rrel_next_template: {
+                rrel_init_template: {
+                    rrel_template: [*
+                        @input_param1 = (.._consumer <-_ concept_node);;
+                        nrel_ip _-> (.._consumer _=> .._consumer_ip);;
+                        @output_param1 = (.._consumer_ip <-_ concept_ip);;
+                    *];
+                    rrel_template_input_params: {
+                        @input_param1
+                    };
+                    rrel_template_output_params: {
+                        @output_param1
+                    }
+                } (* <- nrel_search_template;; *)
+            } (* <- nrel_fixed_search_strategy_template;; *)
+        } (* <- nrel_fixed_search_strategy_template;; *)
+    } (* <- nrel_fixed_search_strategy_template;; *)
+};;
+
+@search_all_consumers_ips_by_produccers_ip_template
+<- nrel_fixed_search_strategy_template;
+=> nrel_main_idtf:
+    [Шаблон поиска айпи консьюмеров по айпи продьюсера]
+    (*
+        <- lang_ru;;
+    *);;

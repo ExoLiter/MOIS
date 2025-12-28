@@ -1,0 +1,7 @@
+dodik
+<- sc_node_non_role_relation;
+=> nrel_main_idtf:
+    [Додик]
+    (*
+        <- lang_ru;;
+    *);;

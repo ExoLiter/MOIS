@@ -1,9 +1,9 @@
-@search_use_cases_by_license_template = {
+@search_all_clients_ips_by_server_template = {
     rrel_init_template: {
         rrel_template: [*
-            @input_param1 = (.._license <-_ concept_license);;
-            rrel_license _-> (.._database _-> .._license);;
-            @output_param1 = (.._database <-_ concept_nosql_database);;
+            @input_param1 = (.._server <-_ concept_server);;
+            rrel_client _-> (.._client <-_ .._server);;
+            @output_param1 = (.._client <-_ concept_node);;
         *];
         rrel_template_input_params: {
             @input_param1
@@ -15,9 +15,9 @@
     rrel_next_template: {
         rrel_init_template: {
             rrel_template: [*
-                @input_param1 = (.._database <-_ concept_nosql_database);;
-                rrel_use_case _-> (.._database _-> .._use_case);;
-                @output_param1 = (.._use_case <-_ concept_use_case);;
+                @input_param1 = (.._client <-_ concept_node);;
+                nrel_ip _-> (.._client _=> .._ip);;
+                @output_param1 = (.._ip <-_ concept_ip);;
             *];
             rrel_template_input_params: {
                 @input_param1
@@ -25,14 +25,14 @@
             rrel_template_output_params: {
                 @output_param1
             }
-        } (* <- nrel_search_template;; *)
+        } (* <- nrel_search_set_template;; *)
     } (* <- nrel_fixed_search_strategy_template;; *)
 };;
 
-@search_use_cases_by_license_template
+@search_all_clients_ips_by_server_template
 <- nrel_fixed_search_strategy_template;
 => nrel_main_idtf:
-    [Шаблон поиска сфер применения по лицензии базы данных]
+    [Шаблон поиска айпи клиентов сервера]
     (*
         <- lang_ru;;
     *);;

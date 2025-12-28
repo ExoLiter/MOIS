@@ -1,7 +1,0 @@
-concept_query_language
-<- sc_node_class;
-=> nrel_main_idtf:
-    [язык запросов]
-    (*
-        <- lang_ru;;
-    *);;

@@ -1,7 +1,7 @@
-concept_nosql_database
+concept_ip
 <- sc_node_class;
 => nrel_main_idtf:
-    [NoSQL база данных]
+    [ip адрес]
     (*
         <- lang_ru;;
     *);;

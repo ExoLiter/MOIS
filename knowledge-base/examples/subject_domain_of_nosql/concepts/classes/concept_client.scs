@@ -1,0 +1,9 @@
+concept_client
+<- sc_node_class;
+=> nrel_main_idtf:
+    [клиент]
+    (*
+        <- lang_ru;;
+    *);
+<= nrel_inclusion:
+    concept_node;;

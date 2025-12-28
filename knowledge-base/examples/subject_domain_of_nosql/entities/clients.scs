@@ -1,0 +1,24 @@
+client_node_1
+<- concept_client;
+<- concept_node;
+=> nrel_ip:
+    2.1.1.1;;
+
+client_node_2
+<- concept_client;
+<- concept_node;
+=> nrel_ip:
+    2.1.1.2;;
+
+client_node_3
+<- concept_client;
+<- concept_node;
+=> nrel_ip:
+    2.1.1.3;;
+
+client_node_4
+<- concept_client;
+<- concept_node;
+=> nrel_ip:
+    2.1.1.4;;
+

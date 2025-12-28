@@ -1,0 +1,318 @@
+// ==========================================================================================
+// ПРОГРАММА: Программа поиска баз данных по серверам-консьюмерам очереди сообщений
+// ==========================================================================================
+// НАЗНАЧЕНИЕ:
+//   Эта scp-программа ищет в указанной очереди сообщений всех серверов-консьюмеров,
+//   затем для каждого такого сервера находит все базы данных, к которым он подключен,
+//   и собирает их в результирующее множество.
+//
+// ВХОДНЫЕ ПАРАМЕТРЫ:
+//   .._message_queue - очередь сообщений, в рамках которой ищутся серверы-консьюмеры.
+//
+// ВЫХОДНЫЕ ПАРАМЕТРЫ:
+//   .._result_databases - результирующая структура, содержащая все найденные базы данных.
+//
+// АЛГОРИТМ:
+//   1. Создать пустое результирующее множество баз данных.
+//   2. Проверить, что входной аргумент - это экземпляр класса очередей сообщений.
+//   3. Найти всех консьюмеров (серверов), принадлежащих указанной очереди сообщений.
+//   4. Для каждого консьюмера пройти через все его базы данных.
+//   5. Добавить каждую найденную базу данных в результирующее множество.
+//   6. Очистить временные множества и вернуть результат.
+//
+// ИСПОЛЬЗУЕМЫЕ КЛЮЧЕВЫЕ SC-ЭЛЕМЕНТЫ:
+//   - concept_message_queue: класс очередей сообщений
+//   - rrel_consumer: связывает очередь сообщений с сервером-консьюмером
+//   - concept_server: класс серверов
+//   - nrel_database: связывает сервер с базой данных
+//   - concept_database: класс баз данных
+//
+// ==========================================================================================
+
+program_for_searching_consumers_databases_in_message_queue
+=> nrel_main_idtf:
+	[Программа поиска баз данных по серверам-консьюмерам очереди сообщений]
+    (*
+        <- lang_ru;;
+    *);
+	[Program for searching databases of consumers in message queue]
+    (*
+        <- lang_en;;
+    *);
+<- scp_program;
+-> rrel_key_sc_element:
+    .._process;;
+
+program_for_searching_consumers_databases_in_message_queue = [*
+.._process
+<-_ scp_process;
+
+// ОБЪЯВЛЕНИЕ ВХОДНЫХ И ВЫХОДНЫХ ПАРАМЕТРОВ:
+_-> rrel_1:: rrel_in:: .._message_queue; // очередь сообщений, в рамках которой ищутся серверы-консьюмеры.
+_-> rrel_2:: rrel_out:: .._result_databases; // результирующая структура баз данных.
+
+<=_ nrel_decomposition_of_action:: _...
+(*
+	// ШАГ 1: ИНИЦИАЛИЗАЦИЯ РЕЗУЛЬТИРУЮЩЕЙ СТРУКТУРЫ
+	// Создать пустую структуру для добавления баз данных.
+	_-> rrel_1:: .._generate_result_set_of_databases
+	(*
+		<-_ genElStr3;;
+
+		_-> rrel_1:: rrel_assign:: rrel_scp_var:: rrel_const:: rrel_node:: rrel_structure:: .._result_databases;;
+		_-> rrel_2:: rrel_assign:: rrel_scp_var:: rrel_const_perm_pos_arc:: .._arc_from_result_databases_to_class;;
+		_-> rrel_3:: rrel_fixed:: rrel_scp_const:: concept_database;;
+
+		// Перейти к проверке входного аргумента.
+		_=> nrel_goto:: .._check_message_queue;;
+	*);;
+
+	// ШАГ 2: ПРОВЕРКА ВХОДНОГО АРГУМЕНТА
+	// Проверить, что входной аргумент действительно является экземпляром класса очередей сообщений.
+	_-> .._check_message_queue
+	(*
+		<-_ searchElStr3;;
+
+		_-> rrel_1:: rrel_fixed:: rrel_scp_const:: concept_message_queue;;
+		_-> rrel_2:: rrel_assign:: rrel_const_perm_pos_arc:: rrel_scp_var:: .._arc_from_class_to_message_queue;;
+		_-> rrel_3:: rrel_fixed:: rrel_scp_const:: .._message_queue;;
+
+		// Если входной аргумент является экземпляром класса очередей сообщений,
+		// то перейти к печати в терминал, что он является очередью сообщений.
+		_=> nrel_then:: .._print_that_specified_argument_is_message_queue;;
+		// Если входной аргумент не является экземпляром класса очередей сообщений,
+		// то перейти к печати в терминал, что он не является очередью сообщений.
+		_=> nrel_else:: .._print_that_specified_argument_is_not_message_queue;;
+	*);;
+
+	// Напечатать в терминал, что входной аргумент является очередью сообщений.
+	_-> .._print_that_specified_argument_is_message_queue
+	(*
+		<-_ printNl;;
+		_-> rrel_1:: rrel_fixed:: rrel_scp_const:: [Specified argument is message queue];;
+
+		// Перейти к поиску всех консьюмеров в очереди сообщений.
+		_=> nrel_goto:: .._search_message_queue_consumers;;
+	*);;
+
+	// ШАГ 3: ПОИСК ВСЕХ КОНСЬЮМЕРОВ В ОЧЕРЕДИ СООБЩЕНИЙ
+	// Найти всех консьюмеров (серверов), принадлежащих очереди, сформировать множество из них и записать в .._found_consumers.
+	_-> .._search_message_queue_consumers
+	(*
+		<-_ searchSetStr5;;
+
+		_-> rrel_1:: rrel_fixed:: rrel_scp_const:: .._message_queue;;
+		_-> rrel_2:: rrel_assign:: rrel_scp_var:: rrel_const_perm_pos_arc:: .._arc_from_queue_to_consumer;;
+		_-> rrel_3:: rrel_assign:: rrel_scp_var:: rrel_const:: rrel_node:: .._consumer;;
+		_-> rrel_4:: rrel_assign:: rrel_scp_var:: rrel_const_perm_pos_arc:: .._arc_to_arc_from_queue_to_consumer;;
+		_-> rrel_5:: rrel_fixed:: rrel_scp_const:: rrel_consumer;;
+
+		_-> rrel_set_3:: rrel_assign:: rrel_scp_var:: .._found_consumers;;
+
+		// Если консьюмеры найдены, то перейти к выбору консьюмера.
+		_=> nrel_then:: .._get_next_consumer;;
+		// Если консьюмеры не найдены, то перейти к печати, что все консьюмеры были пройдены.
+		_=> nrel_else:: .._print_that_all_consumers_were_iterated;;
+	*);;
+
+	// ШАГ 4: ВЫБРАТЬ КОНСЬЮМЕРА ИЗ МНОЖЕСТВА НАЙДЕННЫХ
+	// Найти любого консьюмера во множестве найденных консьюмеров, являющегося значением переменной .._found_consumers.
+	_-> .._get_next_consumer
+	(*
+		<-_ searchElStr3;;
+
+		_-> rrel_1:: rrel_fixed:: rrel_scp_var:: .._found_consumers;;
+		_-> rrel_2:: rrel_assign:: rrel_scp_var:: rrel_const_perm_pos_arc:: .._arc_from_consumers_set_to_consumer;;
+		_-> rrel_3:: rrel_assign:: rrel_scp_var:: .._consumer;;
+
+		// Если консьюмеры еще остались, то перейти к удалению выбранного консьюмера из множества.
+		_=> nrel_then:: .._pop_consumer_from_set;;
+		// Если все консьюмеры были пройдены, то перейти к печати, что все консьюмеры были пройдены.
+		_=> nrel_else:: .._print_that_all_consumers_were_iterated;;
+	*);;
+
+	// ШАГ 5: УДАЛИТЬ ВЫБРАННОГО КОНСЬЮМЕРА ИЗ МНОЖЕСТВА НАЙДЕННЫХ
+	// Удалить sc-дугу между множеством в .._found_consumers и выбранным консьюмером.
+	_-> .._pop_consumer_from_set
+	(*
+		<-_ eraseEl;;
+
+		_-> rrel_1:: rrel_fixed:: rrel_scp_var:: rrel_erase:: .._arc_from_consumers_set_to_consumer;;
+
+		// Перейти к печати в терминал, что консьюмер успешно извлечен из множества.
+		_=> nrel_goto:: .._print_that_consumer_was_found;;
+	*);;
+
+	// Напечатать в терминал, что консьюмер успешно извлечен из множества.
+	_-> .._print_that_consumer_was_found
+	(*
+		<-_ printNl;;
+
+		_-> rrel_1:: rrel_fixed:: rrel_scp_const:: [Consumer was found in specified message queue];;
+
+		// Перейти к поиску баз данных текущего консьюмера.
+		_=> nrel_goto:: .._search_consumer_databases;;
+	*);;
+
+	// ШАГ 6: ПОИСК ВСЕХ БАЗ ДАННЫХ У ТЕКУЩЕГО КОНСЬЮМЕРА
+	// Найти все базы данных, к которым подключен текущий сервер-консьюмер, сформировать множество и записать в .._found_databases.
+	_-> .._search_consumer_databases
+	(*
+		<-_ searchSetStr5;;
+
+		_-> rrel_1:: rrel_fixed:: rrel_scp_var:: .._consumer;;
+		_-> rrel_2:: rrel_assign:: rrel_scp_var:: rrel_common_arc:: .._arc_from_consumer_to_database;;
+		_-> rrel_3:: rrel_assign:: rrel_scp_var:: rrel_const:: rrel_node:: .._database;;
+		_-> rrel_4:: rrel_assign:: rrel_scp_var:: rrel_const_perm_pos_arc:: .._arc_to_arc_from_consumer_to_database;;
+		_-> rrel_5:: rrel_fixed:: rrel_scp_const:: nrel_database;;
+
+		_-> rrel_set_3:: rrel_assign:: rrel_scp_var:: .._found_databases;;
+
+		// Если базы данных найдены, то перейти к выбору базы данных.
+		_=> nrel_then:: .._get_next_database;;
+		// Если базы данных не найдены, то перейти к выбору следующего консьюмера.
+		_=> nrel_else:: .._get_next_consumer;;
+	*);;
+
+	// ШАГ 7: ВЫБРАТЬ БАЗУ ДАННЫХ ИЗ МНОЖЕСТВА НАЙДЕННЫХ
+	// Найти любую базу данных во множестве .._found_databases.
+	_-> .._get_next_database
+	(*
+		<-_ searchElStr3;;
+
+		_-> rrel_1:: rrel_fixed:: rrel_scp_var:: .._found_databases;;
+		_-> rrel_2:: rrel_assign:: rrel_const_perm_pos_arc:: rrel_scp_var:: .._arc_from_database_set_to_database;;
+		_-> rrel_3:: rrel_assign:: rrel_scp_var:: .._database;;
+
+		// Если базы данных еще остались, то перейти к удалению выбранной базы данных из множества.
+		_=> nrel_then:: .._pop_database_from_set;;
+		// Если все базы данных были пройдены, то перейти к печати, что все базы данных были пройдены.
+		_=> nrel_else:: .._print_that_all_databases_were_iterated;;
+	*);;
+
+	// ШАГ 8: УДАЛИТЬ ВЫБРАННУЮ БАЗУ ДАННЫХ ИЗ МНОЖЕСТВА НАЙДЕННЫХ
+	// Удалить sc-дугу между множеством в .._found_databases и выбранной базой данных.
+	_-> .._pop_database_from_set
+	(*
+		<-_ eraseEl;;
+
+		_-> rrel_1:: rrel_fixed:: rrel_scp_var:: rrel_erase:: .._arc_from_database_set_to_database;;
+
+		// Перейти к печати в терминал, что база данных успешно извлечена из множества.
+		_=> nrel_goto:: .._print_that_database_was_found;;
+	*);;
+
+	// Напечатать в терминал, что база данных успешно извлечена из множества.
+	_-> .._print_that_database_was_found
+	(*
+		<-_ printNl;;
+
+		_-> rrel_1:: rrel_fixed:: rrel_scp_const:: [Database was found in specified consumer];;
+
+		// Перейти к проверке принадлежности базы данных к классу concept_database.
+		_=> nrel_goto:: .._check_database_class;;
+	*);;
+
+	// ШАГ 9: ПРОВЕРКА ПРИНАДЛЕЖНОСТИ БАЗЫ ДАННЫХ К КЛАССУ БАЗ ДАННЫХ
+	// Проверить, что база данных принадлежит классу concept_database, после чего перейти к добавлению в результат.
+	_-> .._check_database_class
+	(*
+		<-_ searchSetStr3;;
+
+		_-> rrel_1:: rrel_fixed:: rrel_scp_const:: concept_database;;
+		_-> rrel_2:: rrel_assign:: rrel_scp_var:: rrel_const_perm_pos_arc:: .._arc_from_class_to_database;;
+		_-> rrel_3:: rrel_fixed:: rrel_scp_var:: .._database;;
+
+		_-> rrel_set_2:: rrel_fixed:: rrel_scp_var:: .._result_databases;;
+
+		// Перейти к добавлению базы данных в результат.
+		_=> nrel_goto:: .._add_database_to_result_databases_set;;
+	*);;
+
+	// ШАГ 10: ДОБАВИТЬ БАЗУ ДАННЫХ В РЕЗУЛЬТИРУЮЩЕЕ МНОЖЕСТВО
+	// Создать sc-дугу от структуры в .._result_databases к текущей базе данных.
+	_-> .._add_database_to_result_databases_set
+	(*
+		<-_ genElStr3;;
+
+		_-> rrel_1:: rrel_fixed:: rrel_scp_var:: .._result_databases;;
+		_-> rrel_2:: rrel_assign:: rrel_scp_var:: rrel_const_perm_pos_arc:: .._arc_from_result_databases_set_to_database;;
+		_-> rrel_3:: rrel_fixed:: rrel_scp_var:: .._database;;
+
+		// Перейти к печати в терминал, что база данных успешно добавлена в результат.
+		_=> nrel_goto:: .._print_that_database_was_added_to_result_databases_set;;
+	*);;
+
+	// Напечатать в терминал, что база данных успешно добавлена в результат.
+	_-> .._print_that_database_was_added_to_result_databases_set
+	(*
+		<-_ printNl;;
+
+		_-> rrel_1:: rrel_fixed:: rrel_scp_const:: [Database was added to result databases set];;
+
+		// Перейти к выбору следующей базы данных.
+		_=> nrel_goto:: .._get_next_database;;
+	*);;
+
+	// Напечатать в терминал, что все базы данных у консьюмера были обработаны.
+	_-> .._print_that_all_databases_were_iterated
+	(*
+		<-_ printNl;;
+
+		_-> rrel_1:: rrel_fixed:: rrel_scp_const:: [All databases were iterated in specified consumer];;
+
+		// Перейти к удалению временного множества баз данных.
+		_=> nrel_goto:: .._erase_found_databases_set;;
+	*);;
+
+	// Удалить временное множество баз данных.
+	_-> .._erase_found_databases_set
+	(*
+		<-_ eraseEl;;
+
+		_-> rrel_1:: rrel_fixed:: rrel_scp_var:: rrel_erase:: .._found_databases;;
+
+		// Перейти к выбору следующего консьюмера.
+		_=> nrel_goto:: .._get_next_consumer;;
+	*);;
+
+	// Напечатать в терминал, что все консьюмеры были обработаны.
+	_-> .._print_that_all_consumers_were_iterated
+	(*
+		<-_ printNl;;
+
+		_-> rrel_1:: rrel_fixed:: rrel_scp_const:: [All consumers were iterated in specified message queue];;
+
+		// Перейти к удалению временного множества консьюмеров.
+		_=> nrel_goto:: .._erase_found_consumers_set;;
+	*);;
+
+	// Удалить временное множество консьюмеров.
+	_-> .._erase_found_consumers_set
+	(*
+		<-_ eraseEl;;
+
+		_-> rrel_1:: rrel_fixed:: rrel_scp_var:: rrel_erase:: .._found_consumers;;
+
+		// Перейти к завершению программы.
+		_=> nrel_goto:: .._return_result;;
+	*);;
+
+	// Напечатать в терминал, что указанный аргумент не является очередью сообщений.
+	_-> .._print_that_specified_argument_is_not_message_queue
+	(*
+		<-_ printNl;;
+
+		_-> rrel_1:: rrel_fixed:: rrel_scp_const:: [Specified argument is not message queue];;
+
+		// Перейти к завершению программы.
+		_=> nrel_goto:: .._return_result;;
+	*);;
+
+	// Завершить программу.
+	_-> .._return_result
+	(*
+		<-_ return;;
+	*);;
+*);;
+*];;

@@ -1,0 +1,11 @@
+RabbitMQ
+<- concept_message_queue;
+<- concept_node;
+=> nrel_ip:
+    3.1.1.1;
+-> rrel_producer:
+    server_node_2;           
+    server_node_1;
+-> rrel_consumer:
+    server_node_4;
+    server_node_3;;

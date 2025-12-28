@@ -1,11 +1,11 @@
-rrel_query_language
+rrel_consumer
 <- sc_node_role_relation;
 => nrel_main_idtf:
-    [язык запросов']
+    [консьюмер']
     (*
         <- lang_ru;;
     *);
 => nrel_first_domain:
-    concept_nosql_database;
+    concept_message_queue;
 => nrel_second_domain:
-    concept_query_language;;
+    concept_server;;

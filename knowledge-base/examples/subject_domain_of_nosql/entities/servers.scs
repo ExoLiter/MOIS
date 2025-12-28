@@ -1,0 +1,52 @@
+server_node_1
+<- concept_server;
+<- concept_node;
+=> nrel_ip:
+    4.1.1.1;
+-> rrel_client:
+    client_node_1;
+-> rrel_client:
+    client_node_2;
+-> rrel_client:
+    client_node_3;
+=> nrel_database:
+    Redis;
+    Ne04j;
+    MongoDB;;
+
+server_node_2
+<- concept_server;
+<- concept_node;
+=> nrel_ip:
+    4.1.1.2;
+-> rrel_client:
+    client_node_1;
+=> nrel_database:
+    Ne04j;
+    Cassandra;
+    Redis;
+    MongoDB;;
+
+server_node_3
+<- concept_server;
+<- concept_node;
+=> nrel_ip:
+    4.1.1.3;
+-> rrel_client:
+    client_node_1;
+-> rrel_client:
+    client_node_4;   
+=> nrel_database:
+    Redis;;
+
+server_node_4
+<- concept_server;
+<- concept_node;
+=> nrel_ip:
+    4.1.1.4;
+-> rrel_client:
+    client_node_4;  
+=> nrel_database:
+    Cassandra;
+    MongoDB;;
+

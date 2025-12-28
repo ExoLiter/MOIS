@@ -1,0 +1,9 @@
+concept_database
+<- sc_node_class;
+=> nrel_main_idtf:
+    [NoSQL базы данных]
+    (*
+        <- lang_ru;;
+    *);
+<= nrel_inclusion:
+    concept_node;;
